@@ -12,13 +12,13 @@ let tx: any;
 before(async () => {
   accounts = await ethers.getSigners();
   [eoa] = accounts;
-  const challengeFactory = await ethers.getContractFactory(`CoinFlip`);
+  const challengeFactory = await ethers.getContractFactory(`TheSourceFile`);
   const challengeAddress = await createChallenge(
-    `0x4dF32584890A0026e56f7535d0f2C6486753624f`
+    `GET ADDRESS FROM ETHERNAUT SITE`
   );
   challenge = await challengeFactory.attach(challengeAddress);
 
-  const attackerFactory = await ethers.getContractFactory(`CoinFlipAttacker`);
+  const attackerFactory = await ethers.getContractFactory(`YourAttackerSourceFile`);
   attacker = await attackerFactory.deploy(challenge.address);
 });
 
@@ -38,5 +38,5 @@ it("solves the challenge", async function () {
 });
 
 after(async () => {
-  expect(await submitLevel(challenge.address), "level not solved").to.be.true;
+  expect(await submitLevel(challenge.address), "level should be solved").to.be.true;
 });
