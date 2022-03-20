@@ -128,6 +128,7 @@ it("solves the challenge", async function () {
   ]);
   console.log(infos.join(`\n`));
 
+  console.log("Getting the password by calling 'password' method");
   const password = await challenge.password()
   console.log(`password = ${password}`)
   // can we somehow get it from constructor arguments? seems to accept a _password
@@ -139,5 +140,5 @@ it("solves the challenge", async function () {
 });
 
 after(async () => {
-  expect(await submitLevel(challenge.address), "level not solved").to.be.true;
+  expect(await submitLevel(challenge.address), "level solved").to.be.true;
 });

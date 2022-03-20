@@ -171,6 +171,25 @@ export const submitLevel = async (address: string) => {
   }
 };
 
+type ChallengeState = {
+  accounts: Signer[];
+  eoa: Signer;
+  challenge: Contract;
+};
+
+const getChallengeContract = (s: ChallengeState | null, levelName: string, address: string) => {
+  return async() => {
+    let accounts: Signer[];
+    let eoa: Signer;
+    accounts = await ethers.getSigners();
+    [eoa] = accounts;
+    const challengeFactory = await ethers.getContractFactory(levelName);
+    const challengeAddress = await createChallenge(address);
+    const challenge = challengeFactory.attach(challengeAddress);
+    s = { accounts: accounts, eoa: eoa, challenge: challenge };
+  }
+};
+
 export const createChallenge = async (
   contractLevel: string,
   value: any = `0`
