@@ -20,6 +20,7 @@ before(async () => {
 });
 
 it("solves the challenge", async function () {
+  console.log("Call the mispelled 'Fal1out' constructor which updates the owner");
   tx = await challenge.Fal1out()
   await tx.wait()
 });
