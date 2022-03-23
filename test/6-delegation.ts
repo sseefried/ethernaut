@@ -31,7 +31,7 @@ it("solves the challenge", async function () {
   tx = await eoa.sendTransaction({
      to: challenge.address,
      data: methodCallData,
-//     gasLimit: BigNumber.from(`100000`)
+     gasLimit: BigNumber.from(`100000`)
   });
   console.log(await tx.wait());
   console.log("Owner after: ", await challenge.owner());
