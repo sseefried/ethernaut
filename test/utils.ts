@@ -1,4 +1,4 @@
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, BigNumber } from "ethers";
 import { LogDescription } from "ethers/lib/utils";
 import { ethers } from "hardhat";
 
@@ -208,3 +208,8 @@ export const createChallenge = async (
     throw new Error(`createChallenge failed: ${error.message}`);
   }
 };
+
+
+export const bigNumberToEther = (b: BigNumber) => {
+    return b.toNumber() / 1e18;
+}
