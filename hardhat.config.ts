@@ -4,7 +4,7 @@ import { task, HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
 import "./tasks/index";
 
-const { ARCHIVE_URL, MNEMONIC } = process.env;
+const { ARCHIVE_URL, MNEMONIC, BLOCK_NUMBER } = process.env;
 
 if (!ARCHIVE_URL)
   throw new Error(
@@ -13,6 +13,11 @@ if (!ARCHIVE_URL)
 if (!MNEMONIC)
   throw new Error(
     `MNEMONIC env var not set. Copy .env.template to .env and set the env var`
+  );
+
+if (!BLOCK_NUMBER)
+  throw new Error(
+    `BLOCK_NUMBER env var not set. Copy .env.template to .env and set the env var`
   );
 
 const accounts = {
@@ -39,7 +44,7 @@ const config: HardhatUserConfig = {
       accounts,
       forking: {
         url: ARCHIVE_URL, // https://eth-rinkeby.alchemyapi.io/v2/SECRET`,
-        blockNumber: 7838325,
+        blockNumber: Number(BLOCK_NUMBER),
       },
     },
   },
