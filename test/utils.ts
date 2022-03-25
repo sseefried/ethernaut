@@ -184,7 +184,6 @@ export const createChallenge = async (
       value,
     });
     await tx.wait();
-
     const txReceipt = await ethernaut.provider!.getTransactionReceipt(tx.hash);
     if (txReceipt.logs.length === 0) throw new Error(`No event found`);
     const events: LogDescription[] = txReceipt.logs
@@ -212,4 +211,32 @@ export const createChallenge = async (
 
 export const bigNumberToEther = (b: BigNumber) => {
     return b.toNumber() / 1e18;
+}
+
+export const logEvents = (events: Array<any>) => {
+  let i: number;
+  let j: any;
+
+  const pretty = (val: any) => {
+    if (val instanceof BigNumber) {
+      return (val.toNumber()/1e18).toString() + " ether";
+    }
+    return val.toString();
+  }
+
+  for (i = 0; i < events.length; i++) {
+    let a = events[i].args;
+    let propNames: any = Object.getOwnPropertyNames(a);
+    let result: any = {};
+    for (j in propNames) {
+      let k: any = propNames[j];
+      //console.log("parseInt", parseInt(propNames[k]));
+      if ( a.hasOwnProperty(k) &&
+           k != "length" &&
+           parseInt(k).toString() == "NaN" ) {
+        result[k] = pretty(a[k]);
+      }
+    }
+    console.log(events[i].event, result);
+  }
 }
