@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, BigNumber } from "ethers";
 import { ethers } from "hardhat";
-import { createChallenge, submitLevel, bigNumberToEther } from "./utils";
+import { createChallenge, submitLevel, bigNumberToEther, logEvents } from "./utils";
 
 let accounts: Signer[];
 let eoa: Signer;
@@ -16,8 +16,10 @@ before(async () => {
   const challengeAddress = await createChallenge(
     `GET ADDRESS FROM ETHERNAUT SITE`
     // IMPORTANT: Some contracts will need a second argument specifying how
-    // much value that should have in them on creation. e.g. Reentrance level
+    // much value that should have in them on creation. e.g. Reentrance level e.g.
+    // , ethers.utils.parseEither("0.001")
   );
+
   challenge = await challengeFactory.attach(challengeAddress);
 
   const attackerFactory = await ethers.getContractFactory(`YourAttackerSourceFile`);
