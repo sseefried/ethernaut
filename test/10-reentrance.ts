@@ -26,7 +26,7 @@ before(async () => {
 it("solves the challenge", async function () {
   let provider: any = eoa.provider;
   const valueToExtract = await provider.getBalance(challenge.address);
-  let increment: BigNumber = ethers.utils.parseEther("0.000013");
+  let increment: BigNumber = ethers.utils.parseEther("0.0007");
   tx = await attacker.attack(valueToExtract,
          { value: increment });
   const receipt = await tx.wait();
