@@ -26,14 +26,11 @@ before(async () => {
 it("solves the challenge", async function () {
   let provider: any = eoa.provider;
   const valueToExtract = await provider.getBalance(challenge.address);
+  console.log("target contract has", bigNumberToEther(valueToExtract));
   let increment: BigNumber = ethers.utils.parseEther("0.0007");
-  tx = await attacker.attack(valueToExtract,
-         { value: increment });
+  tx = await attacker.attack({ value: increment });
   const receipt = await tx.wait();
   logEvents(receipt.events);
-//  console.log(receipt.events[0].args);
-  //console.log(receipt.events[0].decode[1]());
-
 });
 
 after(async () => {

