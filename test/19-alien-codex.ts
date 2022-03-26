@@ -27,7 +27,7 @@ before(async () => {
 
 it("solves the challenge", async function () {
   let provider: any = eoa.provider;
-  let ourAddress: string = await eoa.getAddress()
+  let ourAddress: any = await eoa.getAddress()
 
 
   let twoPow256: BigNumber = BigNumber.from(2n).pow(256);
