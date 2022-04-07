@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import { Contract, Signer, BigNumber } from "ethers";
 import { ethers } from "hardhat";
-import { createChallenge, submitLevel, bigNumberToEther, logEvents } from "./utils";
+import { createChallenge, submitLevel, bigNumberToEther,
+         logEvents, dumpStorage } from "./utils";
 
 let accounts: Signer[];
 let eoa: Signer;
@@ -27,7 +28,6 @@ before(async () => {
 });
 
 it("solves the challenge", async function () {
-  // WRITE YOUR CODE HERE
 });
 
 after(async () => {
