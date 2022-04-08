@@ -219,25 +219,29 @@ export const logEvents = (events: Array<any>) => {
 
   const pretty = (val: any) => {
     if (val instanceof BigNumber) {
-      return (val.toNumber()/1e18).toString() + " ether";
+      return (val.toNumber()/1e18).toString() + " ether, " + val.toString() + " wei";
     }
     return val.toString();
   }
 
   for (i = 0; i < events.length; i++) {
-    let a = events[i].args;
-    let propNames: any = Object.getOwnPropertyNames(a);
-    let result: any = {};
-    for (j in propNames) {
-      let k: any = propNames[j];
-      //console.log("parseInt", parseInt(propNames[k]));
-      if ( a.hasOwnProperty(k) &&
-           k != "length" &&
-           parseInt(k).toString() == "NaN" ) {
-        result[k] = pretty(a[k]);
+    if (events[i].args) {
+      let a = events[i].args;
+      let propNames: any = Object.getOwnPropertyNames(a);
+      let result: any = {};
+      for (j in propNames) {
+        let k: any = propNames[j];
+        //console.log("parseInt", parseInt(propNames[k]));
+        if ( a.hasOwnProperty(k) &&
+             k != "length" &&
+             parseInt(k).toString() == "NaN" ) {
+          result[k] = pretty(a[k]);
+        }
       }
+      console.log(events[i].event, result);
+    } else {
+      console.log("Unknown event", events[i].data);
     }
-    console.log(events[i].event, result);
   }
 }
 
