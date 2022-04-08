@@ -23,11 +23,17 @@ before(async () => {
 
   challenge = await challengeFactory.attach(challengeAddress);
 
+  // const challenge = await challengeFactory.deploy();
+
   const attackerFactory = await ethers.getContractFactory(`GateKeeperOneAttacker`);
   attacker = await attackerFactory.deploy(challenge.address);
 });
 
 it("solves the challenge", async function () {
+  tx = await attacker.attack();
+  const receipt = await tx.wait();
+  logEvents(receipt.events);
+
 });
 
 after(async () => {
