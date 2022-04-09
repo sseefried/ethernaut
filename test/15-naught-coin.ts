@@ -23,12 +23,21 @@ before(async () => {
 
   challenge = await challengeFactory.attach(challengeAddress);
 
+  const eoaAddress = await eoa.getAddress();
+
   const attackerFactory = await ethers.getContractFactory(`NaughtCoinAttacker`);
-  attacker = await attackerFactory.deploy(challenge.address);
+  attacker = await attackerFactory.deploy(challenge.address, eoaAddress);
 });
 
 it("solves the challenge", async function () {
-  // WRITE YOUR CODE HERE
+    const addr = await eoa.getAddress();
+
+    // Approve attacker to spend my tokens
+    await challenge.approve(attacker.address, await challenge.balanceOf(addr));
+
+    tx = await attacker.attack();
+    const receipt = await tx.wait();
+    console.log(await challenge.balanceOf(addr));
 });
 
 after(async () => {
