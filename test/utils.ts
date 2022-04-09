@@ -255,4 +255,5 @@ export async function dumpStorage(signer: Signer, contract: Contract, n: number)
   for (i = 0; i < n; i++) {
     console.log(`storage[${i}]`, await provider.getStorageAt(contract.address, i));
   }
+  console.log("----");
 };
