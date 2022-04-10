@@ -165,7 +165,7 @@ export const submitLevel = async (address: string) => {
 
     const event = ethernaut.interface.parseLog(txReceipt.logs[0]);
     return event.name === `LevelCompletedLog`;
-  } catch (error) {
+  } catch (error: any) {
     console.error(`submitLevel: ${error.message}`);
     return false;
   }
@@ -202,7 +202,7 @@ export const createChallenge = async (
     if (!event) throw new Error(`Invalid Event ${JSON.stringify(event)}`);
 
     return event.args.instance;
-  } catch (error) {
+  } catch (error: any) {
     console.error(`createChallenge: ${error.message}`);
     throw new Error(`createChallenge failed: ${error.message}`);
   }
