@@ -27,7 +27,6 @@ before(async () => {
 it("solves the challenge", async function () {
     tx = await attacker.attack({ gasLimit: 60000});
     const receipt = tx.wait();
-    console.log(await challenge.price());
 });
 
 after(async () => {
