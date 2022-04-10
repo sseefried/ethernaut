@@ -1,4 +1,5 @@
-pragma solidity ^0.6.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.7.3;
 
 import '@openzeppelin/contracts/math/SafeMath.sol';
 
@@ -19,15 +20,15 @@ contract Denial {
         uint amountToSend = address(this).balance.div(100);
         // perform a call without checking return
         // The recipient can revert, the owner will still get their share
-        partner.call.value(amountToSend)("");
+        partner.call{value:amountToSend}("");
         owner.transfer(amountToSend);
         // keep track of last withdrawal time
-        timeLastWithdrawn = now;
+        timeLastWithdrawn = block.timestamp;
         withdrawPartnerBalances[partner] = withdrawPartnerBalances[partner].add(amountToSend);
     }
 
     // allow deposit of funds
-    fallback() external payable {}
+    receive() external payable {}
 
     // convenience function
     function contractBalance() public view returns (uint) {
