@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { Address } from "cluster";
 import { Contract, Signer, BigNumber } from "ethers";
 import { ethers } from "hardhat";
 import { createChallenge, submitLevel, bigNumberToEther,
@@ -6,13 +7,16 @@ import { createChallenge, submitLevel, bigNumberToEther,
 
 let accounts: Signer[];
 let eoa: Signer;
-let attacker: Contract;
+let eoaAddress: string;
+let fakeToken1: Contract;
+let fakeToken2: Contract;
 let challenge: Contract; // challenge contract
 let tx: any;
 
 before(async () => {
   accounts = await ethers.getSigners();
   [eoa] = accounts;
+  eoaAddress = await eoa.getAddress();
   const challengeFactory = await ethers.getContractFactory(`DexTwo`);
   const challengeAddress = await createChallenge(
     `0xd2BA82c4777a8d619144d32a2314ee620BC9E09c`
@@ -20,8 +24,8 @@ before(async () => {
 
   challenge = await challengeFactory.attach(challengeAddress);
 
-//  const attackerFactory = await ethers.getContractFactory(`YourAttackerSourceFile`);
-//  attacker = await attackerFactory.deploy(challenge.address);
+  const fakeTokenFactory = await ethers.getContractFactory(`DexTwoFakeToken`);
+  fakeToken1 = await fakeTokenFactory.deploy(eoaAddress, challenge.address);
 });
 
 it("solves the challenge", async function () {
