@@ -245,15 +245,19 @@ export const logEvents = (events: Array<any>) => {
   }
 }
 
+export const waitTx = async (p: Promise<any>) => {
+  return await p.then((tx:any) => tx.wait());
+};
+
 //
 // Dump the first n storage locations to the console
 // Make sure to use call this function with 'await' e.g await dumpStorage(...)
 //
-export async function dumpStorage(signer: Signer, contract: Contract, n: number) {
+export async function dumpStorage(signer: Signer, contractAddress: string, n: number) {
   let provider: any = signer.provider;
   let i: number;
   for (i = 0; i < n; i++) {
-    console.log(`storage[${i}]`, await provider.getStorageAt(contract.address, i));
+    console.log(`storage[${i}]`, await provider.getStorageAt(contractAddress, i));
   }
   console.log("----");
 };

