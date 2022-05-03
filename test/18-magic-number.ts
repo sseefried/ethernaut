@@ -44,6 +44,8 @@ it("solves the challenge", async function () {
 
   const ast: Node = parse(program);
   const bytecode = await assemble(ast, {});
+  console.log("assembled bytecode", bytecode);
+
 
   // By leaving out "to" field this is an _init transaction_ i.e. deploys a contract
   tx = await eoa.sendTransaction({
