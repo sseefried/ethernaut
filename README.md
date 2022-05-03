@@ -3,7 +3,7 @@
 These are my (`sseefried`'s) solutions to the [Ethernaut CTF](https://ethernaut.openzeppelin.com/). However, I forked this repository from `cmichel`'s 
 [Ethernaut solutions](https://github.com/MrToph/ethernaut) repo.
 
-I did this because I wanted to borrow his `hardhat` test infrastructure, which is a much faster way to interact with smart contructs than calling out to a real testnet with its inconsisent and lengthy block times. 
+I did this because I wanted to borrow his `hardhat` test infrastructure, which is a much faster way to interact with smart contracts than calling out to a real testnet with its inconsisent and lengthy block times. 
 
 It might be hard to believe, but I am one of those people who is capable of not looking at the answers "at the back of the book", even when conveniently within reach. In order to fully benefit from the learning experience it's best to do it this way. "You're only cheating yourself" is the principle of this approach. I removed all of `cmichel`'s solutions from my fork of the repo in [commit 313c6964352de8e201ff0e3ed96f8d848ffc85ca](https://github.com/sseefried/ethernaut-solutions/commit/313c6964352de8e201ff0e3ed96f8d848ffc85ca).
 
