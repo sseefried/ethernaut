@@ -1,7 +1,7 @@
 # Solutions to OpenZeppelin's Ethernaut CTF
 
 These are my (`sseefried`'s) solutions to the [Ethernaut CTF](https://ethernaut.openzeppelin.com/). However, I forked this repository from `cmichel`'s 
-[Ethernaut solutions](https://github.com/MrToph/ethernaut)
+[Ethernaut solutions](https://github.com/MrToph/ethernaut) repo.
 
 I did this because I wanted to borrow his `hardhat` test infrastructure, which is a much faster way to interact with smart contructs than calling out to a real testnet with its inconsisent and lengthy block times. 
 
