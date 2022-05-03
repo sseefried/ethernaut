@@ -1,9 +1,15 @@
-# ethernaut
+# Solutions to OpenZeppelin's Ethernaut CTF
 
-My solutions to [Ethernaut CTF](https://ethernaut.openzeppelin.com/).
-In-depth explanations for each level [can be read on my blog](https://cmichel.io/ethernaut-solutions/).
+These are my (`sseefried`'s) solutions to the [Ethernaut CTF](https://ethernaut.openzeppelin.com/). However, I forked this repository from `cmichel`'s 
+[Ethernaut solutions](https://github.com/MrToph/ethernaut)
 
-## Development
+I did this because I wanted to borrow his `hardhat` test infrastructure, which is a much faster way to interact with smart contructs that doing it via Remix on a real testnet. 
+
+It might be hard to believe but I am one of those people who is capable of not looking at the answers, even when conveniently within reach, in order to fully benefit from the learning experience. I removed all of `cmichel`'s solutions from my fork of the repo in [commit 313c6964352de8e201ff0e3ed96f8d848ffc85ca](https://github.com/sseefried/ethernaut-solutions/commit/313c6964352de8e201ff0e3ed96f8d848ffc85ca).
+
+Plus, more levels were added to Ethernaut since `cmichel` solved them, hopefully proving that I'm capable of solving these challenges without the assistance of others. 
+
+## Set up
 
 ```bash
 npm i
@@ -15,7 +21,6 @@ You need to configure environment variables:
 cp .env.template .env
 # fill out
 ```
-
 Pick a mnemonic and the resulting accounts will be used in the challenges.
 
 #### Hardhat
