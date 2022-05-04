@@ -6,6 +6,7 @@ import { createChallenge, submitLevel, bigNumberToEther,
 
 let accounts: Signer[];
 let eoa: Signer;
+let eoaAddress: string;
 let attacker: Contract;
 let challenge: Contract; // challenge contract
 let tx: any;
@@ -13,12 +14,13 @@ let tx: any;
 before(async () => {
   accounts = await ethers.getSigners();
   [eoa] = accounts;
+  eoaAddress = await eoa.getAddress();
   const challengeFactory = await ethers.getContractFactory(`TheSourceFile`);
   const challengeAddress = await createChallenge(
     `GET ADDRESS FROM ETHERNAUT SITE`
     // IMPORTANT: Some contracts will need a second argument specifying how
     // much value that should have in them on creation. e.g. Reentrance level e.g.
-    // , ethers.utils.parseEither("0.001")
+    // , ethers.utils.parseEther("0.001")
   );
 
   challenge = await challengeFactory.attach(challengeAddress);
